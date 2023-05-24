@@ -1,0 +1,161 @@
+@import url('https://fonts.googleapis.com/css2?family=Arimo&display=swap');
+
+body {
+    background-color: #f1f1f1;
+    font-family: 'Arimo', sans-serif;;
+}
+
+.homepage {
+    height: 40px;
+    width: 150px;
+    top: 30px;
+    right: 0px;
+    background-color: #0097b2;
+    text-decoration: none;
+    color : white;
+    text-anchor: middle;
+    text-align: center;
+    font-size: 1.4em;
+    padding-top: 10px;
+    padding-bottom: 10px ;
+    border-radius: 10px;
+    position: fixed;
+    margin-right: 5%;
+}
+
+.homepage > p2 {
+ color: white;
+}
+
+form {
+    position: fixed;
+    height: 40px;
+    width: 400px;
+    left : 50%;
+    top:40px;
+}
+
+input[type = search] {
+    border: 0px;
+    height: 40px;
+    width: 300px;
+    border-radius: 30px;
+    position: relative;
+    
+}
+
+input[type=submit] {
+    border : 0px;
+    width: 16px;
+    height: 16px;
+    background-color: white;
+    background-image: url(../loupe1.png);
+    background-repeat: no-repeat;
+    right: 30px ;
+    position :relative;
+}
+
+input[type=submit]:hover {
+    cursor:pointer;
+}
+
+table {
+    margin-top: 100px;
+    background-color: #dbd9d9;
+    border-collapse: collapse;
+    border-radius: 0.7em;
+    overflow: hidden;
+}
+
+table,th,td {
+    text-align: center;
+    
+}
+
+table {
+    table-layout: fixed;
+    width: 25000px;
+    font-size: 100%;
+}
+
+td {
+    color : #f1f1f1;
+    padding: 15px;
+    font-size: 150%;
+}   
+
+th {
+    color : #767676;
+    padding: 20px;
+    font-size: 1em;
+}
+
+.sticky-col {
+    position: sticky;
+    left: 0;
+    background-color: #13abdb;
+}
+
+.sticky-col_searched {
+    background-color: #0070ad;
+}
+
+.sticky-col_h {
+    position: sticky;
+    left: 0;
+    background-color: #dbd9d9;
+}
+
+td a {
+    color: #000;
+    text-decoration: none;
+}
+.searched {
+    background-color: #0070ad;
+}
+
+.not-searched {
+    background-color: #13abdb;
+}
+.trois {
+    background-color: #ff3131;
+}
+
+.deux {
+    background-color: #ff914d;
+}
+
+.un {
+    background-color: #ffbd59;
+}
+
+.zero {
+    background-color: #ffde59;
+}
+
+.trois_s {
+    background-color: #DD2C2C;
+}
+
+.deux_s {
+    background-color: #ED8545;
+}
+
+.un_s {
+    background-color: #E4AA52;
+}
+
+.zero_s {
+    background-color: #EDCE51;
+}
+
+.tscroll {
+    overflow-x: scroll;
+}
+
+.tscroll table td:first-child {
+    position: sticky;
+    left: 0;
+}
+
+
