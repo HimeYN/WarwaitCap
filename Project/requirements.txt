@@ -1,5 +1,0 @@
-customtkinter
-tqdm
-pandas
-openpyxl
-mysql
