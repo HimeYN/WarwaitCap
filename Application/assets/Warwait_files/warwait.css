@@ -1,0 +1,238 @@
+@import url('https://fonts.googleapis.com/css2?family=Arimo&display=swap');
+
+body {
+    background-color: #f1f1f1;
+    font-family: 'Arimo', sans-serif;;
+}
+
+table,th,td {
+    text-align: center;
+    
+}
+
+table {
+    margin-top: 150px;
+    background-color: #dbd9d9;
+    border-collapse:collapse;
+    border-radius: 0.7em;
+    overflow: hidden;
+    table-layout: fixed;
+    font-size: 100%;
+}
+
+td {
+    color : #f1f1f1;
+    padding: 15px;
+}   
+
+th {
+    color : #767676;
+    padding: 20px;
+    font-size: 1em;
+}
+
+td a {
+    color: #f1f1f1;
+    text-decoration: none;
+}
+
+.warwait {
+    background-color: #13abdb;
+    
+}
+
+.warwait:hover {
+    background-color: #0070ad;
+}
+
+.indispo {
+    background-color: #F9FF98;
+    color: black;
+}
+
+.mission {
+    background-color: #7AEBB9;
+    color: black;
+}
+
+.warwait:hover .indispo {
+    background-color: #D9DF7C;
+}
+
+.warwait:hover .mission {
+    background-color: #6DD2A5;
+}
+
+
+
+div#plus {
+    background-image: url(../assets/plus.png);
+    background-size: 2em;
+    background-repeat: no-repeat;
+    background-position: center center;
+}
+
+div#moins {
+    background-image: url(../assets/moins.png);
+    background-size: 1.5em;
+    background-repeat: no-repeat;
+    background-position: center center;
+}
+
+form#week {
+    padding : 5px;
+    top:0px;
+    left :42%;
+    position: absolute;
+    border: 1px solid ;
+    border-color: #767676;
+    height: 50px;
+    width: 50px;
+    border-radius: 40%
+}
+
+input[name='semaine'] {
+    padding: 0px;
+    border: 0px;
+    height: 100%;
+    width: 100%;
+    border-radius: 30px;
+    background-color: #f1f1f1;
+    opacity: 0.95;
+    font-size: large;
+    position: relative;
+    text-align: center;
+}
+
+div#container {
+    background-color: #f1f1f1;
+    opacity: 0.95;
+    width: 20%;
+    height: 100px;
+    left : 22%;
+    top :30px;
+    border-radius: 5px 5px 50px 0px;
+    position: fixed;
+}
+div#container .plus {
+    padding : 5px;
+    top :0px;
+    left : 60%;
+    position: absolute;
+    border: 1px solid ;
+    border-color: #767676;
+    height: 50px;
+    width: 50px;
+    border-radius: 40%
+}
+
+div#container .plus p {
+    position:relative;
+    overflow: scroll;
+    text-align: center;
+    font-size: 18px;
+}
+
+div#container .plus:hover {
+    cursor: pointer;
+}
+
+div#container .moins {
+    padding : 5px;
+    top :0px;
+    left : 24%;
+    position: absolute;
+    border: 1px solid ;
+    border-color: #767676;
+    height: 50px;
+    width: 50px;
+    border-radius: 40%
+}
+
+div#container .moins p {
+    position:relative;
+    overflow: scroll;
+    text-align: center;
+    font-size: 18px;
+}
+div#container .moins:hover {
+    cursor: pointer;
+}
+
+div#mainContainer {
+    top:0px;
+    height: 40px;
+    width: 100%;
+    background-color: #f1f1f1;
+    opacity: 0.95;
+    position: fixed;
+}
+
+form#search {
+    position: absolute;
+    height: 40px;
+    width: 400px;
+    left : 50%;
+    top:-50px;
+}
+
+input[type = search] {
+    top : 180%;
+    left: -36%;
+    border: 0px;
+    height: 40px;
+    width: 70%;
+    border-radius: 30px;
+    position: relative;
+    
+}
+
+input[name="searched-btn"] {
+    top : 180%;
+    left: -43%;
+    border : 0px;
+    width: 16px;
+    height: 16px;
+    background-color: white;
+    background-image: url(../assets/loupe1.png);
+    background-repeat: no-repeat;
+    right: 30px ;
+    position :relative;
+}
+
+input[name="searched-btn"] {
+    cursor: pointer;
+}
+
+div#search-box {
+    background-color: #f1f1f1;
+    opacity: 0.95;
+    position: absolute;
+    width: 20%;
+    height: 100px;
+    left : 50%;
+    top :30px;
+    border-radius: 5px 5px 50px 50px;
+    width: 20%;
+
+}
+
+div#nb-week-box {
+    background-color: #f1f1f1;
+    opacity: 0.95;
+    position: absolute;
+    left : -10px;
+    top :30px;
+    height: 100px;
+    width: 25%;
+    border-radius: 5px 5px 0px 0px;
+}
+
+div#nb-week-box form#nb_week {
+    top : 40px;
+    left: 40px;
+}
+
+div#nb-week-box input[name="nbsem"] {
+    size: 4em;
+}
