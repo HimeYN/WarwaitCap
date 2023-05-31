@@ -13,6 +13,7 @@
         name:
           - python3
           - python3-pip
+          - python3-tk
           - apache2
           - libapache2-mod-php
           - php
@@ -24,6 +25,12 @@
         repo: https://github.com/HimeYN/WarwaitCap.git
         dest: /home/ubuntu/WarwaitCap
 
-    - name: Run Python script
-      command: python3 setup.py
+    - name: Enable php module 
+      command: a2enmod php8.1
+      
+    - name: Install requirements
+      command: pip install -r WarwaitCap/Projet/requirements.txt
+
+    - name: Run Python App
+      command: python3 Setupwith.py
     
