@@ -73,7 +73,7 @@ table,th,td {
 }
 
 table {
-    table-layout: fixed;
+    table-layout:fixed;
     font-size: 100%;
 }
 
@@ -81,12 +81,19 @@ td {
     color : #6e6e6e;
     padding: 15px;
     font-size: 150%;
+    background-color: white;
 }   
+
+.searched td {
+    background-color: #f1f1f1;
+}
+
 
 th {
     color : #767676;
     padding: 20px;
     font-size: 1em;
+    
 }
 
 .sticky-col {
@@ -132,20 +139,20 @@ td a {
     background-color: #cde8b6;
 }
 
-.trois_s {
-    background-color: #DD2C2C;
+.searched td.trois {
+    background-color: #65ba1b;
 }
 
-.deux_s {
-    background-color: #ED8545;
+.searched td.deux {
+    background-color: #91cf5a;
 }
 
-.un_s {
-    background-color: #E4AA52;
+.searched td.un {
+    background-color: #9dce72;
 }
 
-.zero_s {
-    background-color: #EDCE51;
+.searched td.zero {
+    background-color: #bddca2;
 }
 
 .tscroll {

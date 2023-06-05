@@ -11,7 +11,13 @@ switch ($_SERVER['REQUEST_METHOD']) {
             $api = $data->get_devl_skillmatrix($_GET['devl']);
             echo json_encode($api);
         }
-        else {
+        elseif (isset($_GET['get_search'])) {
+            $api = $data->get_search_for_matrix();
+            echo json_encode($api);
+
+        } else if (isset($_GET['search_bar_matrix'])) {
+            $data->search_bar_matrix($_GET['search_bar_matrix']);
+        } else {
             $api = $data->get_skillmatrix();
             echo json_encode($api);
             
@@ -25,8 +31,11 @@ switch ($_SERVER['REQUEST_METHOD']) {
     case 'PUT':
         $body = file_get_contents('php://input');
         $array = json_decode($body,true);
-        $api = $data->update_warwait($array['nom'],$array['semaine'],$array['value']); 
-        echo json_encode($api);
+        if (isset($array['search_matrix'])) {
+            $data->set_search_for_matrix($array['search_matrix']);
+        } else if (isset($array['search_bar_matrix'])) {
+            $data->search_bar_matrix($array['search_bar_matrix']);
+        }
         break;
 
 

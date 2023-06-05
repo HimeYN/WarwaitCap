@@ -272,6 +272,12 @@ class Setup(CTk):
             else :
 
                 cursor.execute("DROP TABLE IF EXISTS warwait")  # Delete former table
+                cursor.execute("DROP TABLE IF EXISTS status")
+                cursor.execute("CREATE TABLE IF NOT EXISTS status (state TEXT)")
+                cursor.execute("INSERT INTO status (state) VALUES (%s)",('indispo',))
+                cursor.execute("INSERT INTO status (state) VALUES (%s)",('mission',))
+                cursor.execute("INSERT INTO status (state) VALUES (%s)",('IP+ indispo',))
+                cursor.execute("INSERT INTO status (state) VALUES (%s)",('IP+',))
                 nbr = pd.ExcelFile(path_to_excel).sheet_names
                 name_in_db= []
                 for _index_sheet_ in tqdm(range(len(nbr)-1)):
@@ -405,10 +411,12 @@ class Setup(CTk):
                                 params = (grade,site) + only_weeks + (success_rate,company,skills,str(34),pe,"false",'true',name)
                         try:
                             cursor.execute(insert_warwait,params)
+                            
 
                         except mysql.Error as e:
                             raise Exception("Cant insert in the table : {}".format(e))
                             
+                    
                     database.commit()
                 
                 tk.messagebox.showinfo("Success","Warwait has been added")
@@ -549,9 +557,11 @@ class Setup(CTk):
                         #print(all_vals[t][name][0])
                         for i in range(1,len(all_vals[t][name][0])):
                             #print(all_vals[t][name][0][i])
-                            res+=all_vals[t][name][0][i]
+                            if (all_vals[t][name][0][i] > res):
+
+                                res=all_vals[t][name][0][i]
                             
-                        tp_res+=(round(res/(len(all_vals[t][name][0])-1),2),)
+                        tp_res+=(res,)
                 tp_res+=(db_list[len(db_list)-2][name+1],) if str(db_list[len(db_list)-2][name+1]) != "nan" else (" ",)
                 sql += ", ANGLAIS) VALUES ( "+values+", '{}')"
                 #print(self.fill_query(sql,tp_res))

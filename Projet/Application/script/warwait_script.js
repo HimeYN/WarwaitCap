@@ -8,6 +8,8 @@ const get_week_number= () =>{
     return weekNumber;
 }
 
+
+
 const modulo = (number,modulo_v) => {
     if (number >= 0 && number < modulo_v) {
         return number;
@@ -19,10 +21,10 @@ const modulo = (number,modulo_v) => {
         }
     }
 }
-
+let options_list = Array();
 let search_const = '';
 var start_week = get_week_number();
-const week_6months_before = modulo(get_week_number()-26,52)+1
+const week_6months_before = (modulo(get_week_number()-26,52)==0) ? 52 : modulo(get_week_number()-26,52); 
 var nb_week = 5;
 
 
@@ -45,7 +47,7 @@ const generate_cell = (cell,value) => {
     if (value == 'IP+ indispo') {
         cellText.textContent = 'IP+';
     }
-    else if (!(value == 'mission' || value == 'indispo' || value=='NULL')) {
+    else if (!(value == 'mission' || value == 'indispo' || value=='NULL' || value == 'true' || value == 'false')) {
         cellText.textContent = value;
     } 
     cell.setAttribute('class',  value);
@@ -87,10 +89,9 @@ const set_value = (ev) => {
 const generate_select_table = (cell,id) => {
     const select = document.createElement('select');
     add_option_default(select);
-    add_option(select, 'indispo');
-    add_option(select, 'IP+ indispo');
-    add_option(select, 'mission');
-    add_option(select, 'IP+');
+    options_list.forEach(elt => {
+        add_option(select,elt);
+    })
     select.setAttribute('id', id);
     select.setAttribute('class', 'select');
     select.addEventListener('change', set_value);
@@ -108,15 +109,35 @@ const fill_cell = (cell,value,id) => {
     }
 }
 
+const send_to_server = async (collab) => {
+    let a = await fetch('../api/skillmatrix.php', {
+        method: 'put',
+        headers : {
+            'Content-Type': 'application/json',
+        },
+        body : JSON.stringify({
+            search_matrix: collab,
+        })
+    })
+    document.location.href='skillmatrix.php';
+}
+
+const set_search_matrix = (ev) => {
+    ev.preventDefault();
+    const collab = ev.target.textContent;
+    send_to_server(collab);
+}
+
 const create_row = (elements_json,ligne,tbl_body,strat_week,nb_week) => {
     const row = document.createElement("tr");
     row.setAttribute("class", "warwait");
+    row.setAttribute('id',elements_json[ligne]['id']);
     
     for (const [k,v ]of Object.entries(elements_json[ligne])) {
         if (isNaN(k)) {
             if (isNaN(k.substring(1))) {
                 if (k == 'pe' || k == 'afficher' || k == 'id') {
-
+                   
                 } else {
                     const cell = document.createElement("td");
                     generate_cell(cell,v);
@@ -124,10 +145,12 @@ const create_row = (elements_json,ligne,tbl_body,strat_week,nb_week) => {
                         cell.textContent = cell.textContent+'%';
                         row.appendChild(cell);
                     } else if (k == 'nom') {
-                        const link = document.createElement("a");
-                        link.setAttribute("href",`skillmatrix.php?seached=${v}`);
-                        link.appendChild(cell);
-                        row.appendChild(link);
+                        //const link = document.createElement("a");
+                        cell.setAttribute('class','nom');
+                        cell.addEventListener('click', set_search_matrix)
+                        //link.setAttribute("href",`skillmatrix.php`);
+                        //link.appendChild(cell);
+                        row.appendChild(cell);
                     } else if (k != 'nom' && k!= 'grade' && k!= 'site'&& k!= 'reussite'&& k!= 'positionnement'&& k!= 'competences'&& k!= 'cv_code'&& k!= 'en_mission'&& k!='id') { 
                         switch (v) {
                             case 0:
@@ -167,16 +190,16 @@ const create_row = (elements_json,ligne,tbl_body,strat_week,nb_week) => {
                                 key = `s${modulo(i,52)}`
                             }
                             const cell = document.createElement('td');
-                            fill_cell(cell,elements_json[ligne][key],key +'-' +Object.values(elements_json[ligne])[125].toString()+"-s")
-                            cell.setAttribute("id",key +'-' +Object.values(elements_json[ligne])[125].toString());
+                            fill_cell(cell,elements_json[ligne][key],key +'-' +row.getAttribute('id')+"-s")
+                            cell.setAttribute("id",key +'-' +row.getAttribute('id').toString());
                             row.appendChild(cell);
                         }
                     }
                 } else  {
                     if (week_number >= strat_week && week_number <strat_week+nb_week) {
                         const cell = document.createElement("td");
-                        fill_cell(cell,v,k +'-' +Object.values(elements_json[ligne])[125].toString()+"-s");
-                        cell.setAttribute("id",k +'-' +Object.values(elements_json[ligne])[125].toString());
+                        fill_cell(cell,v,k +'-' +row.getAttribute('id').toString()+"-s");
+                        cell.setAttribute("id",k +'-' +row.getAttribute('id').toString());
                         row.appendChild(cell);
                     }
                 }
@@ -365,6 +388,21 @@ window.onload = function () {
     
     clear_6_months_before();
 
+    const get_options= async() => {
+        let a = await fetch('../api/edit.php?options=',{
+            method: 'get',
+            headers : {
+                'Content-Type': 'application/json',
+            },
+        })
+
+        const elements_json = await a.json();
+        elements_json.forEach(elt => {
+            options_list.push(elt.state)
+        })
+    }
+
+    get_options();
     generate_table(start_week,nb_week);
     
     const week = document.getElementById("week");
@@ -374,10 +412,9 @@ window.onload = function () {
     
     const change_week=(ev) => {
         ev.preventDefault();
-        const form_data = new FormData(ev.target);
-        console.log(form_data);
-        if (form_data.get('semaine')) {
-            start_week = parseInt(form_data.get('semaine'),10);
+        const value = ev.target.value;
+        if (value && value >0 && value <53) {
+            start_week = parseInt(value,10);
         } else {
             start_week = get_week_number();
         }
@@ -457,6 +494,9 @@ window.onload = function () {
     plus.addEventListener("click",plus_week);
     search.addEventListener('submit', search_display);
     nb_week_form.addEventListener('submit', change_nb_week);
-    week.addEventListener('submit', change_week);
+    week.addEventListener('input', change_week);
+    week.addEventListener('submit', ev=> {
+        ev.preventDefault();
+    });
 }
 

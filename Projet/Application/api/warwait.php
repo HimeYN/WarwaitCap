@@ -8,7 +8,7 @@ $data = new BDD('salut');
 switch ($_SERVER['REQUEST_METHOD']) {
     case 'GET':
         if (isset($_GET['searched'])) {
-            $api = $data->get_warwait_searched_v2($_GET['searched']);
+            $api = $data->get_warwait_searched_v3($_GET['searched']);
             echo json_encode($api);
         }
         else {

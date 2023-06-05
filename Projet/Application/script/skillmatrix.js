@@ -1,10 +1,36 @@
-develop_val = ""
+develop_val = "";
+searched_collab = "";
 function containsUppercase(str) {
-    return /^[A-Z]+$/.test(str);
+    return /^[A-Z]+([_][A-Z]+)*$/.test(str);
 }
+
+const offset_col = (percent,s=0) => {
+    let r_max = 215-s;
+    let g_max = 245-s;
+    let b_max = 225-s;
+
+    let r_min = 249-s;
+    let g_min = 255-s;
+    let b_min = 252-s;
+
+    let r_offset = (r_max - r_min)*percent;
+    let g_offset = (g_max - g_min)*percent;
+    let b_offset = (b_max - b_min)*percent;
+    if (r_offset<0) {
+        r_offset = -r_offset;
+    } 
+    if (g_offset<0) {
+        g_offset = -g_offset;
+    }
+    if (b_offset<0) {
+        b_offset = -b_offset;
+    }
+
+    return "rgb("+(r_max-r_offset).toString()+","+(g_max-g_offset).toString()+","+(b_max-b_offset).toString()+")";
+}
+
 const develop = (ev) => {
     ev.preventDefault();
-    console.log(ev.target.id);
     if (develop_val == ev.target.id) {
         develop_val = "";
     } else {
@@ -19,7 +45,6 @@ const develop = (ev) => {
 
 const create_thead = (thead,elements_json) => {
     const row = document.createElement('tr');
-    console.log(elements_json)
     for (var k in elements_json) {
         if (isNaN(k)) {
             const cell = document.createElement("th");
@@ -41,7 +66,7 @@ const create_thead = (thead,elements_json) => {
 
 const create_row = (tbody,elements_json) => {
     const row = document.createElement('tr');
-    row.setAttribute('class','not-searched')
+    //row.setAttribute('class','not-searched')
     //console.log(Object.entries(elements_json));
     
     for (let [key,v]of Object.entries(elements_json)) {
@@ -49,10 +74,11 @@ const create_row = (tbody,elements_json) => {
             const cell = document.createElement('td');
             if (key == 'name') {
                 cell.setAttribute('class','sticky-col');
+                if (v == searched_collab) {
+                    row.setAttribute('class','searched');
+                }
             }
             let cellText = document.createTextNode(`${v}`);
-            console.log(containsUppercase(key));
-            console.log(key);
             if (!containsUppercase(key)) {
                 switch (v) {
                     case 0:
@@ -67,6 +93,16 @@ const create_row = (tbody,elements_json) => {
                     case 3:
                         cell.setAttribute('class','trois');
                         break;
+                }
+            } else {
+                if (key != "DISPONIBILITE" && key != "ANGLAIS") {
+                    let percent = v*100/90;
+                    if (row.className=="searched") {
+                        percent = v*100/90;
+                        cell.style.background=offset_col(percent,15);
+                    } else {
+                        cell.style.background=offset_col(percent);
+                    }
                 }
             }
             cell.appendChild(cellText);
@@ -115,6 +151,50 @@ const create_table_matrix = async () => {
 
 }
 
+const get_searched_value = async() => {
+    let a = await fetch('../api/skillmatrix.php?get_search=',{
+        method: 'get',
+        headers : {
+            'Content-Type': 'application/json',
+        },
+    })
+
+    let elements_json = await a.json();
+    searched_collab = elements_json[0][0];
+}
+
+window.onbeforeunload = function () {
+    get_searched_value();
+}
+
 window.onload = function () {
+    get_searched_value();
     create_table_matrix();
+
+    const send_to_server = async (collab) => {
+        let a = await fetch('../api/skillmatrix.php', {
+            method: 'put',
+            headers : {
+                'Content-Type': 'application/json',
+            },
+            body : JSON.stringify({
+                search_bar_matrix: collab,
+            })
+        })
+        div_main = document.getElementById('table-id');
+        if (div_main !== null) {
+            document.body.removeChild(div_main);
+        }
+        create_table_matrix();
+    }
+
+    const set_searched = (ev) => {
+        ev.preventDefault();
+        const form_data = new FormData(ev.target);
+        if (form_data.get('name')) {
+            send_to_server(form_data.get('name'));
+        }
+    }
+    const search_bar = document.getElementById('search_bar');
+    search_bar.parentElement.addEventListener('submit',set_searched);
 }

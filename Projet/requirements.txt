@@ -3,4 +3,3 @@ tqdm
 pandas
 openpyxl
 mysql
-mysql-connector-python

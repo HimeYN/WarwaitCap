@@ -10,8 +10,13 @@ switch ($_SERVER['REQUEST_METHOD']) {
         if (isset($_GET['searched'])) {
             $api = $data->get_warwait_searched_edit($_GET['searched']);
             echo json_encode($api);
-        }
-        else {
+        } elseif (isset($_GET['options'])) {
+            $api = $data->get_options();
+            echo json_encode($api);
+        } elseif (isset($_GET['row'])) {
+            $api = $data->get_row($_GET['row']);
+            echo json_encode($api);
+        }  else {
             $api = $data->get_warwait_edit();
             echo json_encode($api);
             
@@ -70,6 +75,8 @@ switch ($_SERVER['REQUEST_METHOD']) {
             } elseif (isset($array['week_clear'])) {
                 $api = $data->clear_week($array['week_clear']);
                 echo json_encode($api);
+            } elseif (isset($array['new_state'])) {
+                $data->add_state($array['new_state']);
             }
         }
         
