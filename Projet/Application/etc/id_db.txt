@@ -1,1 +1,1 @@
-﻿host=localhost;user=admin;password=passwd
+﻿host=18.144.58.83;user=admin;password=passwd
