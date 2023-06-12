@@ -4,18 +4,16 @@ echo "###########################"
 echo "  Initializing databases "
 echo "###########################"
 
+cd /home/ubuntu/WarwaitCap/Projet/AppPython/
 python3 withoutGr.py -MC Matrice_des_competences.xlsx
-python3 withoutGr.py -W name.xlsx
-
-- name: Uncomment extension mysql, mv conf to, move app dirctory to
-     command: sed -i "s/;extension=pdo_mysql/extension=pdo_mysql/g" /etc/php/8.1/cli/php.ini
+python3 withoutGr.py -W Wait_Room_2023.xlsx
 
 echo "###########################"
 echo " Configuring Apache Server "
 echo "###########################"
 
 cd /home/ubuntu/WarwaitCap/
-cp -r Projet/Application /var/www/
+sudo cp -r Projet/Application /var/www/
 sudo chmod -R 0755 /var/www/Application
 
 mv App.conf /etc/apache2/sites-available/
