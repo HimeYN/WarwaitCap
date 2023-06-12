@@ -56,9 +56,9 @@
         state: present
 
     - name: Initialiaze BDDs
-      command: python3 withoutGr.py -MC Matrice_des_competences.xlsx; python3 withoutGr.py -W name.xlsx
+      command: bash Warwait/configure.sh
 
-- name: Uncomment extension mysql, mv conf to, move app dirctory to 
-     command: sed -i "s/;extension=pdo_mysql/extension=pdo_mysql/g" /etc/php/8.1/cli/php.ini
-
-
+    - name: Restart Apache Server
+      service:
+        name: apache2
+        state: restarted
