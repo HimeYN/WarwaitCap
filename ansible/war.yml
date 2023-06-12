@@ -31,12 +31,12 @@
     - name: Copy Matrice des competences
       copy:
         src: /home/ubuntu/Matrice_des_competences.xlsx
-        dest: /home/ubuntu/WarwaitCap/AppPython
+        dest: /home/ubuntu/WarwaitCap/Projet/AppPython/
 
     - name: Copy Wait_Room_2023
       copy:
         src: /home/ubuntu/Wait_Room_2023.xlsx
-        dest: /home/ubuntu/WarwaitCap/AppPython
+        dest: /home/ubuntu/WarwaitCap/Projet/AppPython/
 
   
     - name: Set the requirements
@@ -56,7 +56,7 @@
         state: present
 
     - name: Initialiaze BDDs
-      command: bash Warwait/configure.sh
+      command: /home/ubuntu/WarwaitCap/config.sh
 
     - name: Restart Apache Server
       service:
