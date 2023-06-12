@@ -27,6 +27,7 @@
       git:
         repo: https://github.com/HimeYN/WarwaitCap.git
         dest: /home/ubuntu/WarwaitCap/
+        force: yes
 
     - name: Copy Matrice des competences
       copy:
@@ -37,7 +38,6 @@
       copy:
         src: /home/ubuntu/Wait_Room_2023.xlsx
         dest: /home/ubuntu/WarwaitCap/Projet/AppPython/
-
   
     - name: Set the requirements
       command: pip install -r WarwaitCap/Projet/requirements.txt

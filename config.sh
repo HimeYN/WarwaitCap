@@ -27,7 +27,8 @@ public_ip=$(curl -s ifconfig.me) && \
 
 sed -i "s/;extension=pdo_mysql/extension=pdo_mysql/g" /etc/php/8.1/cli/php.ini
 
-sudo a2enmod php
+sudo a2enmod php8.1
+sudo a2ensite App.conf
 sudo a2dissite 000-default.conf
 
 echo "###########################"
