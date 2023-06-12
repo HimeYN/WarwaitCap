@@ -1,0 +1,8 @@
+# vars.yml for deployment playbook
+#
+
+mysql_user_name: admin
+mysql_user_password: passwd
+databases:
+  - cis_nord_warwait
+  - skillmatrix

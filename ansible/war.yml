@@ -2,8 +2,10 @@
 - hosts: all
   become: yes
   gather_facts: false
-  tasks:
+  vars_files:
+    - vars.yml
 
+  tasks:
     - name: Update apt packages
       apt:
         update_cache: yes
@@ -20,16 +22,43 @@
           - php
           - php-mysql
         state: present
-    
+
     - name: Add project repository
       git:
         repo: https://github.com/HimeYN/WarwaitCap.git
-        dest: /home/ubuntu/WarwaitCap
-  
-    - name: Run Python script
-      command: pip install -r WarwaitCap/Projet/requirements.txt
-    
-    - name: Copy file
+        dest: /home/ubuntu/WarwaitCap/
+
+    - name: Copy Matrice des competences
       copy:
-        src: /home/ubuntu
+        src: /home/ubuntu/Matrice_des_competences.xlsx
         dest: /home/ubuntu/WarwaitCap/AppPython
+
+    - name: Copy Wait_Room_2023
+      copy:
+        src: /home/ubuntu/Wait_Room_2023.xlsx
+        dest: /home/ubuntu/WarwaitCap/AppPython
+
+  
+    - name: Set the requirements
+      command: pip install -r WarwaitCap/Projet/requirements.txt
+
+    - name: Create MySQL Databases
+      mysql_db:
+        name: "{{ item }}"
+        state: present
+      loop: "{{ databases }}"
+
+    - name: Create MySQL User and Grant all priviledges
+      mysql_user:
+        name: "{{ mysql_user_name }}"
+        password: "{{ mysql_user_password }}"
+        priv: "*.*:ALL,GRANT"
+        state: present
+
+    - name: Initialiaze BDDs
+      command: python3 withoutGr.py -MC Matrice_des_competences.xlsx; python3 withoutGr.py -W name.xlsx
+
+- name: Uncomment extension mysql, mv conf to, move app dirctory to 
+     command: sed -i "s/;extension=pdo_mysql/extension=pdo_mysql/g" /etc/php/8.1/cli/php.ini
+
+
